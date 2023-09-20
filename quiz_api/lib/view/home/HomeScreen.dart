@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
               gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: Colors.accents,
+            colors: Colors.primaries,
           )),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,7 +59,8 @@ class HomeScreen extends StatelessWidget {
                 alignment: Alignment.center,
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const QuizScreen()));
+                   //await  Provider.of<QuizProvider>(context,listen:false ).initializeQuiz();
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => QuizScreen()));
                   },
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 20),
