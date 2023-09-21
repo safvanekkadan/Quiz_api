@@ -226,8 +226,8 @@ void dispose() {
   Widget build(BuildContext context) {
     return Consumer<QuizProvider>(
       builder: (context, value, child) {
-        //value.initializeQuiz();
-        //value.gotoNextQuestion();
+        value.initializeQuiz();
+       // value.gotoNextQuestion();
         return Scaffold(
           body: SafeArea(
             child: Container(
