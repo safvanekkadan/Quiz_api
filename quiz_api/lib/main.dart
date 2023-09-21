@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quiz_api/controller/quiz_controller.dart';
-import 'package:quiz_api/view/home/HomeScreen.dart';
+
+import 'view/home/homescreen/HomeScreen.dart';
+
 
 void main() {
   runApp(const MyApp());

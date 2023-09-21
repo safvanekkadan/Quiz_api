@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quiz_api/view/home/quizscreen.dart';
@@ -28,23 +30,18 @@ class HomeScreen extends StatelessWidget {
                   border: Border.all(color:Colors.amber, width: 2),
                 ),
                 child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      exit(0);
+                    },
                     icon: const Icon(
                       CupertinoIcons.xmark,
                       color: Colors.white,
                       size: 28,
                     )),
               ),
-              // Image.asset(
-              //   balloon2,
-              // ),
-              // Container(
-              //   color: Colors.amber,
-              //   width: double.infinity,
-              //   height: double.infinity,
-              // ),
+            
               const SizedBox(height: 20),
-              Text("Welcome to our",style:TextStyle(color: Colors.white, fontSize: 18 )  ),
+              const Text("Welcome to our",style:TextStyle(color: Colors.white, fontSize: 18 )  ),
               Text("Quiz Maz",style:TextStyle(color: Colors.white, fontSize: 32)  ),
               
               const SizedBox(height: 20),
@@ -59,7 +56,7 @@ class HomeScreen extends StatelessWidget {
                 alignment: Alignment.center,
                 child: GestureDetector(
                   onTap: () {
-                   //await  Provider.of<QuizProvider>(context,listen:false ).initializeQuiz();
+                  
                     Navigator.push(context, MaterialPageRoute(builder: (context) => QuizScreen()));
                   },
                   child: Container(

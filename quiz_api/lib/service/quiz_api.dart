@@ -5,9 +5,9 @@ import 'package:http/http.dart' as http;
 
 
 class QuizApiService{
-  var   link="https://opentdb.com/api.php?amount=20";
+ static var   link="https://opentdb.com/api.php?amount=20";
 
- getQuiz()async{
+  static getQuiz()async{
   var res= await http.get(Uri.parse(link));
   if(res.statusCode==200){
     var data=jsonDecode(res.body.toString());

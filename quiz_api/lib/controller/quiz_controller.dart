@@ -1,78 +1,24 @@
-// import 'dart:async';
-
-// import 'package:flutter/material.dart';
-// import 'package:quiz_api/service/quiz_api.dart';
-
-// class QuizProvider extends ChangeNotifier{
-  
-//    int currentQuestionIndex = 0;
-//   bool isLoaded = false;
-//   List<String> optionsList = [];
-//   int seconds = 60;
-//   Timer? timer;
-//   int points = 0;
-//  // late  Future? quiz;
-//   List<Color> optionsColor = [
-//     Colors.white,
-//     Colors.white,
-//     Colors.white,
-//     Colors.white,
-//     Colors.white,
-//   ];
-
-//    get quiz => null; 
-//     resetColors() {
-//     optionsColor = [
-//       Colors.white,
-//       Colors.white,
-//       Colors.white,
-//       Colors.white,
-//       Colors.white,
-//     ];
-//   }
-//     startTimer(){
-//     timer =Timer.periodic(const Duration(seconds: 1),(timer){
-      
-//         if(seconds>0){
-//           seconds--;
-//         }else{
-//          gotoNextQuestion(); 
-//         }
-//      notifyListeners();
-
-//     });
-//    }
-//     gotoNextQuestion(){
-//     isLoaded =false;
-//     currentQuestionIndex++;
-//     resetColors();
-//     timer!.cancel();
-//     seconds=60;
-//     startTimer();
-//    }
-
-//    getQuiz()async{
-//     QuizApiService().getQuiz();
-//   }
-// }
-
-
 import 'dart:async';
 import 'package:flutter/material.dart';
-
-import '../service/quiz_api.dart';
-
-
+import 'package:quiz_api/service/quiz_api.dart';
 class QuizProvider extends ChangeNotifier {
-  QuizApiService service = QuizApiService();
   var currentQuestionIndex = 0;
-    Future? quiz;
-  var isLoaded = false;
-  List<String> optionsList = [];
   int seconds = 60;
   Timer? timer;
+   Future? quiz;
+
   int points = 0;
 
+  var isLoaded = false;
+
+  var optionsList = [];
+ Future<void> fetchQuiz() async {
+    if (quiz == null) {
+      quiz =QuizApiService. getQuiz(); 
+      await quiz; 
+      notifyListeners();
+    }
+  }
   var optionsColor = [
     Colors.white,
     Colors.white,
@@ -81,24 +27,28 @@ class QuizProvider extends ChangeNotifier {
     Colors.white,
   ];
 
-  resetColors() {
-    optionsColor = [
-      Colors.white,
-      Colors.white,
-      Colors.white,
-      Colors.white,
-      Colors.white,
-    ];
+  void initializeQuiz() {
+    if (!isLoaded) {
+      optionsList = [];
+      optionsColor = [
+        Colors.white,
+        Colors.white,
+        Colors.white,
+        Colors.white,
+        Colors.white,
+      ];
+      isLoaded = true;
+    }
   }
 
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (seconds > 0) {
         seconds--;
+        notifyListeners(); 
       } else {
         gotoNextQuestion();
       }
-      notifyListeners(); // Notify listeners after the state changes
     });
   }
 
@@ -109,39 +59,25 @@ class QuizProvider extends ChangeNotifier {
     timer!.cancel();
     seconds = 60;
     startTimer();
-    notifyListeners(); // Notify listeners after the state changes
+    notifyListeners();
   }
 
-  void disposeTimer() {
-    timer!.cancel();
-    timer = null;
+  void resetColors() {
+    optionsColor = [
+      Colors.white,
+      Colors.white,
+      Colors.white,
+      Colors.white,
+      Colors.white,
+    ];
   }
-
-  Future<void> loadQuiz() async {
-    quiz =service. getQuiz();
-    notifyListeners(); // Notify listeners after the state changes
-  }
-
-  // Future<void> initializeQuiz() async {
-  //   var data = await service.getQuiz();
-  //   if (isLoaded == false) {
-  //     optionsList = data[currentQuestionIndex]["incorrect_answers"];
-  //     optionsList.add(data[currentQuestionIndex]["correct_answer"]);
-  //     optionsList.shuffle();
-  //     isLoaded = true;
-  //   }
-  //   notifyListeners(); // Notify listeners after the state changes
-  // }
-  Future<void> initializeQuiz() async {
-  quiz = service.getQuiz();
-  var data = await quiz; // Await for the data
-  if (isLoaded == false) {
-    optionsList = data[currentQuestionIndex]["incorrect_answers"];
-    optionsList.add(data[currentQuestionIndex]["correct_answer"]);
-    optionsList.shuffle();
-    isLoaded = true;
-  }
-  notifyListeners(); // Notify listeners after the state changes
-}
+  
+  void cancelTimer() {
+  timer?.cancel(); 
 }
 
+void resetTimer() {
+  cancelTimer();
+  seconds = 60; 
+}
+}
